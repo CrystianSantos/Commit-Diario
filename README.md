@@ -1,77 +1,140 @@
-🟩 AutomatizadorCommit
+<div align="center">
 
-Um script simples que eu criei pra fazer um commit automático por dia no GitHub e manter meu gráfico de contribuições sempre verde.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:2ea043,100:0d1117&height=200&section=header&text=AutomatizadorCommit&fontSize=42&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Um%20commit%20por%20dia%2C%20no%20autom%C3%A1tico&descAlignY=58&descSize=16" alt="AutomatizadorCommit" />
 
-Fiz pra uso pessoal, rodando na minha própria máquina, sem depender de servidor nem de nada complicado. Se você quiser usar também, o passo a passo está logo abaixo.
+<a href="https://github.com/SEU-USUARIO/AutomatizadorCommit">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1200&color=2EA043&center=true&vCenter=true&width=520&lines=Um+commit+por+dia+no+GitHub;Gr%C3%A1fico+de+contribui%C3%A7%C3%B5es+sempre+verde;Roda+local%2C+direto+da+sua+m%C3%A1quina" alt="Typing SVG" />
+</a>
 
-Por que eu fiz isso?
+<br/>
 
-Eu estou estudando e construindo projetos todo dia, mas nem sempre dá pra subir código novo. Queria algo prático que mantivesse a constância no GitHub sem eu precisar lembrar de fazer isso manualmente. Também foi uma ótima desculpa pra praticar automação, Git e o Agendador de Tarefas do Windows.
+![Python](https://img.shields.io/badge/Python-3-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+![License](https://img.shields.io/badge/Licen%C3%A7a-MIT-2ea043?style=for-the-badge)
 
-Como funciona
-O script entra na pasta de um repositório local.
-Faz uma pequena modificação em um arquivo (registra a data do dia).
-Roda git add, git commit e git push.
-O Agendador de Tarefas do Windows executa tudo isso sozinho, todo dia, no horário que eu escolhi (12:00).
-O que você precisa ter
-Windows
-Git instalado e configurado com seu usuário do GitHub
-Python 3 instalado
-Uma conta no GitHub
-VS Code ou IntelliJ (opcional, só pra editar o script se quiser)
-Como instalar na sua máquina
+[Sobre](#-sobre) • [Como funciona](#-como-funciona) • [Instalação](#-instalação) • [Agendamento](#-agendando-no-windows) • [Dúvidas](#-problemas-comuns)
 
-1. Baixe o projeto
+</div>
 
-Pelo botão verde Code → Download ZIP aqui no repositório, ou clonando:
+---
 
-bash
+## 💡 Sobre
+
+Eu estudo e construo projetos todo dia, mas nem sempre dá pra subir código novo. Então criei o **AutomatizadorCommit**: um script que faz **um commit automático por dia** no GitHub, mantendo meu **gráfico de contribuições** em dia sem eu precisar lembrar.
+
+Ele roda **local**, na sua própria máquina, e é de **uso pessoal**. Sem servidor, sem custo. O **Agendador de Tarefas do Windows** dispara tudo sozinho no horário que você escolher.
+
+## ⚙️ Como funciona
+
+```mermaid
+flowchart LR
+    A[⏰ Agendador de Tarefas<br/>todo dia às 12:00] --> B[🐍 automatizador.py]
+    B --> C[📝 Atualiza um arquivo<br/>com a data do dia]
+    C --> D[git add + commit]
+    D --> E[🚀 git push]
+    E --> F[🟩 Contribuição no GitHub]
+```
+
+## 📦 Instalação
+
+### Pré-requisitos
+
+| Ferramenta | Pra quê | Download |
+|---|---|---|
+| **Git** | Fazer o commit e o push | [git-scm.com](https://git-scm.com/) |
+| **Python 3** | Rodar o script | [python.org](https://www.python.org/downloads/) |
+| **Conta no GitHub** | Receber os commits | [github.com](https://github.com/) |
+
+> 💻 VS Code ou IntelliJ são opcionais, só pra editar o script se quiser.
+
+### Passo a passo
+
+**1️⃣ Baixe o projeto**
+
+```bash
 git clone https://github.com/SEU-USUARIO/AutomatizadorCommit.git
+cd AutomatizadorCommit
+```
 
-Guarde a pasta em um lugar fixo, por exemplo C:\Projetos\AutomatizadorCommit.
+Sem Git? Clique em **Code → Download ZIP**, extraia numa pasta fixa (ex.: `C:\Projetos\AutomatizadorCommit`).
 
-2. Crie um repositório só pra isso
+**2️⃣ Crie um repositório só pra isso**
 
-No GitHub, crie um repositório novo (eu chamei o meu de atividade-diaria) e clone na sua máquina:
+No GitHub, crie um repositório novo (o meu se chama `atividade-diaria`) e clone na sua máquina:
 
-bash
+```bash
 git clone https://github.com/SEU-USUARIO/atividade-diaria.git
+```
 
-3. Ajuste o caminho no script
+**3️⃣ Ajuste o caminho no script**
 
-Abra o script no VS Code ou IntelliJ e troque o caminho do repositório pelo da sua máquina, por exemplo:
+Abra o `automatizador.py` e aponte para o seu repositório:
 
-python
+```python
 REPO_PATH = r"C:\Users\SEU-USUARIO\Documents\atividade-diaria"
+```
 
-4. Teste na mão
+**4️⃣ Teste na mão**
 
-No terminal, dentro da pasta do projeto:
-
-bash
+```bash
 python automatizador.py
+```
 
-Se aparecer um novo commit no seu repositório no GitHub, deu certo. ✅
+Apareceu um commit novo no seu repositório? Deu certo ✅
 
-5. Agende pra rodar sozinho
+## 🕛 Agendando no Windows
 
-Abra o Agendador de Tarefas do Windows.
-Clique em Criar Tarefa Básica.
-Dê um nome (ex.: AutomatizadorCommit) e escolha Diariamente, no horário que preferir.
-Em Ação, escolha Iniciar um programa.
-Em Programa/script, coloque o caminho do Python (ex.: python) e, em Adicione argumentos, o caminho completo do script.
-Em Iniciar em, coloque a pasta do projeto.
-Salve e clique com o botão direito na tarefa → Executar pra testar. Se o resultado for 0x0, está tudo certo.
-Dicas
-Use sempre o mesmo repositório pra não bagunçar seus outros projetos.
-Seu PC precisa estar ligado e com internet no horário agendado (dá pra marcar a opção de executar assim que possível caso ele estivesse desligado).
-Se o git push pedir senha, configure um token de acesso pessoal do GitHub ou o Git Credential Manager.
-Tecnologias usadas
+Pra rodar sozinho todo dia:
+
+1. Abra o **Agendador de Tarefas** e clique em **Criar Tarefa Básica**
+2. Nome: `AutomatizadorCommit` · Gatilho: **Diariamente** (eu uso 12:00)
+3. Ação: **Iniciar um programa**
+4. **Programa/script:** `python`
+5. **Adicione argumentos:** caminho completo do `automatizador.py`
+6. **Iniciar em:** pasta do projeto
+7. Salve, clique com o botão direito na tarefa → **Executar** pra testar
+
+> ✅ Resultado **`0x0`** = tudo certo.
+
+## 🛠️ Problemas comuns
+
+<details>
+<summary><b>O PC estava desligado no horário</b></summary>
+<br/>
+Nas propriedades da tarefa, marque a opção de executar assim que possível caso um início agendado tenha sido perdido.
+</details>
+
+<details>
+<summary><b>O git push pede senha</b></summary>
+<br/>
+Configure um token de acesso pessoal do GitHub ou use o Git Credential Manager.
+</details>
+
+<details>
+<summary><b>A tarefa roda mas nada aparece no GitHub</b></summary>
+<br/>
+Confira se o campo <b>Iniciar em</b> está preenchido com a pasta do projeto e se o <code>REPO_PATH</code> está correto.
+</details>
+
+## 🧰 Tecnologias
 
 Python · Git · GitHub · Agendador de Tarefas do Windows · VS Code · IntelliJ
 
-Aviso
+## 📄 Licença
 
-Esse projeto é só uma automação pessoal pra manter a rotina e praticar. O que realmente conta é continuar estudando e construindo coisas de verdade. 😄
+Distribuído sob a licença MIT.
 
+---
+
+<div align="center">
+
+Feito com ☕ por **Crystian**
+
+⭐ Se curtiu, deixa uma estrela no repositório!
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0d1117,100:2ea043&height=100&section=footer" alt="" />
+
+</div>
 Feito por Crystian 💻 Se curtiu, deixa uma ⭐ no repositório!
