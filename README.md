@@ -2,8 +2,8 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:2ea043,100:0d1117&height=200&section=header&text=AutomatizadorCommit&fontSize=42&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Um%20commit%20por%20dia%2C%20no%20autom%C3%A1tico&descAlignY=58&descSize=16" alt="AutomatizadorCommit" />
 
-<a href="https://github.com/SEU-USUARIO/AutomatizadorCommit">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1200&color=2EA043&center=true&vCenter=true&width=520&lines=Um+commit+por+dia+no+GitHub;Gr%C3%A1fico+de+contribui%C3%A7%C3%B5es+sempre+verde;Roda+local%2C+direto+da+sua+m%C3%A1quina" alt="Typing SVG" />
+<a href="https://github.com/CrystianSantos/automatizador-commit">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1200&color=2EA043&center=true&vCenter=true&width=520&lines=Um+commit+autom%C3%A1tico+por+dia;Python+%2B+Git+%2B+Agendador+de+Tarefas;Roda+local%2C+direto+da+sua+m%C3%A1quina" alt="Typing SVG" />
 </a>
 
 <br/>
@@ -12,9 +12,8 @@
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-![License](https://img.shields.io/badge/Licen%C3%A7a-MIT-2ea043?style=for-the-badge)
 
-[Sobre](#-sobre) • [Como funciona](#-como-funciona) • [Instalação](#-instalação) • [Agendamento](#-agendando-no-windows) • [Dúvidas](#-problemas-comuns)
+[Sobre](#-sobre) • [Como funciona](#-como-funciona) • [Mensagens de commit](#-mensagens-de-commit) • [Instalação](#-instalação) • [Agendamento](#-agendando-no-windows) • [Dúvidas](#-problemas-comuns)
 
 </div>
 
@@ -22,20 +21,59 @@
 
 ## 💡 Sobre
 
-Eu estudo e construo projetos todo dia, mas nem sempre dá pra subir código novo. Então criei o **AutomatizadorCommit**: um script que faz **um commit automático por dia** no GitHub, mantendo meu **gráfico de contribuições** em dia sem eu precisar lembrar.
+O **AutomatizadorCommit** é um script em **Python** que faz **um commit automático por dia** em um repositório do GitHub ([`Commit-Diario`](https://github.com/CrystianSantos/Commit-Diario)). Ele roda **local**, na minha máquina, e é de **uso pessoal**: sem servidor e sem custo. O **Agendador de Tarefas do Windows** dispara tudo sozinho no horário escolhido.
 
-Ele roda **local**, na sua própria máquina, e é de **uso pessoal**. Sem servidor, sem custo. O **Agendador de Tarefas do Windows** dispara tudo sozinho no horário que você escolher.
+### 🎯 Propósito
+
+1. **Manter o gráfico de contribuições do GitHub ativo**, com um commit automático por dia.
+2. **Praticar** Python, Git/GitHub e agendamento de tarefas, construindo uma automação do início ao fim.
+
+> ⚠️ **Transparência:** os commits do repositório `Commit-Diario` são **automáticos** e registram apenas uma linha de data e hora no arquivo `log-diario.md`. Eles **não representam trabalho de desenvolvimento**. Meus projetos reais ficam em repositórios separados.
 
 ## ⚙️ Como funciona
 
 ```mermaid
 flowchart LR
-    A[⏰ Agendador de Tarefas<br/>todo dia às 12:00] --> B[🐍 automatizador.py]
-    B --> C[📝 Atualiza um arquivo<br/>com a data do dia]
-    C --> D[git add + commit]
-    D --> E[🚀 git push]
-    E --> F[🟩 Contribuição no GitHub]
+    A[⏰ Agendador de Tarefas<br/>todo dia às 12:00] --> B[🐍 commit_diario.py]
+    B --> C{Já commitou hoje?}
+    C -- sim --> H[Encerra sem fazer nada]
+    C -- não --> D[git pull --rebase]
+    D --> E[📝 Adiciona data e hora<br/>ao log-diario.md]
+    E --> F[git add + commit]
+    F --> G[🚀 git push]
 ```
+
+1. O Agendador executa o script todos os dias.
+2. O script confere se já existe commit do dia, para não duplicar.
+3. Sincroniza com o GitHub (`git pull --rebase`).
+4. Adiciona uma linha com data e hora ao `log-diario.md`.
+5. Faz `git add`, `git commit` e `git push`.
+6. Se algum passo falhar, devolve código de erro `1`, que aparece no Agendador. Se tudo der certo, devolve `0`.
+
+## 📝 Mensagens de commit
+
+As mensagens seguem o padrão [Conventional Commits](https://www.conventionalcommits.org/pt-br/):
+
+```
+<tipo>: <descrição curta>
+```
+
+O script gera sempre esta mensagem:
+
+```
+chore: atualização diária 2026-10-07
+```
+
+- **`chore`** é o tipo para tarefas de rotina e manutenção que não adicionam funcionalidade nem corrigem bugs, que é o caso de um log diário.
+- A descrição é curta e traz a data, para identificar cada execução no histórico.
+
+| Tipo | Quando usar |
+|---|---|
+| `feat` | Nova funcionalidade |
+| `fix` | Correção de bug |
+| `docs` | Mudanças em documentação |
+| `refactor` | Reorganização de código sem mudar o comportamento |
+| `chore` | Tarefas de rotina e manutenção |
 
 ## 📦 Instalação
 
@@ -54,87 +92,107 @@ flowchart LR
 **1️⃣ Baixe o projeto**
 
 ```bash
-git clone https://github.com/SEU-USUARIO/AutomatizadorCommit.git
-cd AutomatizadorCommit
+git clone https://github.com/CrystianSantos/automatizador-commit.git
 ```
 
-Sem Git? Clique em **Code → Download ZIP**, extraia numa pasta fixa (ex.: `C:\Projetos\AutomatizadorCommit`).
+Sem Git? Clique em **Code → Download ZIP** e extraia numa **pasta fixa** (ex.: `C:\Projetos\AutomatizadorCommit`). O Agendador guarda esse caminho, então não mude a pasta depois.
 
-**2️⃣ Crie um repositório só pra isso**
+**2️⃣ Crie um repositório só pra receber os commits**
 
-No GitHub, crie um repositório novo (o meu se chama `atividade-diaria`) e clone na sua máquina:
+No GitHub, crie um repositório **seu** (não um fork), com um README inicial, e clone na sua máquina:
 
 ```bash
-git clone https://github.com/SEU-USUARIO/atividade-diaria.git
+git clone https://github.com/SEU-USUARIO/Commit-Diario.git
 ```
 
-**3️⃣ Ajuste o caminho no script**
+**3️⃣ Configure sua identidade no Git**
 
-Abra o `automatizador.py` e aponte para o seu repositório:
+Use o **mesmo e-mail cadastrado na sua conta do GitHub**, senão o commit não aparece no gráfico:
 
-```python
-REPO_PATH = r"C:\Users\SEU-USUARIO\Documents\atividade-diaria"
+```bash
+git config --global user.name "Seu Nome"
+git config --global user.email "seu-email@exemplo.com"
 ```
 
 **4️⃣ Teste na mão**
 
+Passe como argumento o caminho do repositório clonado, **tudo em uma linha**:
+
 ```bash
-python automatizador.py
+python commit_diario.py C:\caminho\do\Commit-Diario
 ```
 
-Apareceu um commit novo no seu repositório? Deu certo ✅
+Apareceu `Commit de AAAA-MM-DD enviado com sucesso.` e o arquivo `log-diario.md` no GitHub? Deu certo ✅
 
 ## 🕛 Agendando no Windows
 
-Pra rodar sozinho todo dia:
+**Jeito rápido (uma linha no Prompt de Comando):**
 
-1. Abra o **Agendador de Tarefas** e clique em **Criar Tarefa Básica**
-2. Nome: `AutomatizadorCommit` · Gatilho: **Diariamente** (eu uso 12:00)
+```bash
+schtasks /create /tn "CommitDiarioGitHub" /tr "python C:\caminho\commit_diario.py C:\caminho\do\Commit-Diario" /sc daily /st 12:00
+```
+
+**Jeito pela interface:**
+
+1. Abra o **Agendador de Tarefas** (`taskschd.msc`) e clique em **Criar Tarefa Básica**
+2. Nome: `CommitDiarioGitHub` · Gatilho: **Diariamente** (eu uso 12:00)
 3. Ação: **Iniciar um programa**
 4. **Programa/script:** `python`
-5. **Adicione argumentos:** caminho completo do `automatizador.py`
-6. **Iniciar em:** pasta do projeto
-7. Salve, clique com o botão direito na tarefa → **Executar** pra testar
+5. **Adicione argumentos:** `C:\caminho\commit_diario.py C:\caminho\do\Commit-Diario`
+6. Salve, clique com o botão direito na tarefa → **Executar** pra testar
 
-> ✅ Resultado **`0x0`** = tudo certo.
+Para conferir, veja a coluna **Resultado da Última Execução** no Agendador:
+
+> ✅ **`0x0`** = tudo certo.
 
 ## 🛠️ Problemas comuns
 
 <details>
 <summary><b>O PC estava desligado no horário</b></summary>
 <br/>
-Nas propriedades da tarefa, marque a opção de executar assim que possível caso um início agendado tenha sido perdido.
+Nas propriedades da tarefa, aba <b>Configurações</b>, marque a opção de executar assim que possível caso um início agendado tenha sido perdido. Em notebook, desmarque também a exigência de estar na tomada (aba <b>Condições</b>).
 </details>
 
 <details>
 <summary><b>O git push pede senha</b></summary>
 <br/>
-Configure um token de acesso pessoal do GitHub ou use o Git Credential Manager.
+Configure um token de acesso pessoal do GitHub, use chave SSH ou o Git Credential Manager. O push precisa funcionar sem pedir nada, senão a tarefa fica esperando.
 </details>
 
 <details>
-<summary><b>A tarefa roda mas nada aparece no GitHub</b></summary>
+<summary><b>A tarefa roda mas o quadradinho não aparece no GitHub</b></summary>
 <br/>
-Confira se o campo <b>Iniciar em</b> está preenchido com a pasta do projeto e se o <code>REPO_PATH</code> está correto.
+Confira: (1) o e-mail do <code>git config</code> está cadastrado na sua conta; (2) o repositório é seu e não é um fork; (3) o commit está na branch padrão; (4) se o repositório for <b>privado</b>, ative <b>Private contributions</b> nas configurações do gráfico do seu perfil.
+</details>
+
+<details>
+<summary><b>"python" ou "git" não é reconhecido como comando</b></summary>
+<br/>
+O programa não está instalado ou não está no PATH. Instale e <b>feche e abra o Prompt de Comando de novo</b>. No instalador do Python, marque <b>Add Python to PATH</b>.
 </details>
 
 ## 🧰 Tecnologias
 
-Python · Git · GitHub · Agendador de Tarefas do Windows · VS Code · IntelliJ
+| Ferramenta | Uso |
+|---|---|
+| **Python 3** | Lógica do script (`subprocess`, `pathlib`, `datetime`) |
+| **Git** | Controle de versão e envio dos commits |
+| **GitHub** | Hospedagem do repositório remoto |
+| **Agendador de Tarefas (Windows)** | Execução automática diária |
+| **VS Code** | Edição do código |
 
-## 📄 Licença
+## 🔮 Próximos passos
 
-Distribuído sob a licença MIT.
+- [ ] Registrar logs de execução em arquivo
+- [ ] Enviar notificação em caso de falha
+- [ ] Versão em Java
 
 ---
 
 <div align="center">
 
-Feito com ☕ por **Crystian**
-
-⭐ Se curtiu, deixa uma estrela no repositório!
+Feito por **Crystian Santos** · [GitHub](https://github.com/CrystianSantos)
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0d1117,100:2ea043&height=100&section=footer" alt="" />
 
 </div>
-Feito por Crystian 💻 Se curtiu, deixa uma ⭐ no repositório!
